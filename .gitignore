@@ -1,0 +1,23 @@
+# Ignore compiled files and directories
+*.out
+*.exe
+*.dll
+*.so
+*.dylib
+__pycache__
+*.egg-info/
+dist/
+build/
+bin/
+node_modules/
+.env
+
+# Ignore editor/IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
