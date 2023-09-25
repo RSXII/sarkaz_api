@@ -1,5 +1,3 @@
-// main.go
-
 package main
 
 import (
@@ -10,11 +8,14 @@ import (
 )
 
 func main() {
+   
     database.InitDB()
+
+    characterRepo := database.NewCharacterRepository(database.DB)
 
     r := gin.Default()
 
-    routes.InitializeRoutes(r)
+    routes.InitializeRoutes(r, characterRepo)
 
     r.Run(":8080")
 }
