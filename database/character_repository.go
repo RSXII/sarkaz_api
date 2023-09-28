@@ -15,7 +15,14 @@ func NewCharacterRepository(db *sql.DB) *CharacterRepository {
 
 func (repo *CharacterRepository) GetCharacterByName(name string) (models.Character, error) {
     var character models.Character
-    err := repo.db.QueryRow("SELECT * FROM Characters WHERE name=?", name).Scan(
+    query := "SELECT * FROM Characters WHERE name=?"
+
+    stmt, error := repo.db.Prepare(query)
+    if error != nil {
+        return character, error
+    }
+    defer stmt.Close()
+    err := stmt.QueryRow(name).Scan(
         &character.CharacterID, &character.Name, &character.Level, &character.EliteLevel,
         &character.MaxHP, &character.Attack, &character.Defense, &character.MagicResistance,
         &character.RedeployTime, &character.DeployCost, &character.BlockCount,
@@ -29,7 +36,14 @@ func (repo *CharacterRepository) GetCharacterByName(name string) (models.Charact
 
 func (repo *CharacterRepository) GetSimpleCharacterByName(name string) (models.CharacterSimple, error) {
     var character models.CharacterSimple
-    err := repo.db.QueryRow("SELECT Name, Rarity FROM Characters WHERE name=?", name).Scan(
+    query := "SELECT Name, Rarity FROM Characters WHERE name=?"
+
+    stmt, error := repo.db.Prepare(query)
+    if error != nil {
+        return character, nil
+    }
+    defer stmt.Close()
+    err := stmt.QueryRow(name).Scan(
         &character.Name, &character.Rarity,
     )
     if err != nil {
@@ -38,14 +52,22 @@ func (repo *CharacterRepository) GetSimpleCharacterByName(name string) (models.C
     return character, nil
 }
 
-func (repo *CharacterRepository) GetCharactersByRating(rarity string) (models.Character, error) {
+func (repo *CharacterRepository) GetCharactersByRarity(rarity string) (models.Character, error) {
 	var character models.Character
-	err := repo.db.QueryRow("SELECT * FROM Characters WHERE rarity=?", rarity).Scan(
-		&character.CharacterID, &character.Name, &character.Level, &character.EliteLevel,
+    query := "SELECT * FROM Characters WHERE rarity=?"
+
+    stmt, error := repo.db.Prepare(query)
+    if error != nil {
+        return character, error
+    }
+    defer stmt.Close()
+
+    err := stmt.QueryRow(rarity).Scan(
+        &character.CharacterID, &character.Name, &character.Level, &character.EliteLevel,
         &character.MaxHP, &character.Attack, &character.Defense, &character.MagicResistance,
         &character.RedeployTime, &character.DeployCost, &character.BlockCount,
         &character.AttackInterval, &character.Rarity,
-	)
+    )
 	if err != nil {
 		return character, err
 	}

@@ -12,6 +12,6 @@ func InitializeRoutes(r *gin.Engine, characterRepo *database.CharacterRepository
     {
         api.GET("/characters/:name", handlers.GetCharacterHandler(characterRepo))
         api.GET("/characters//simple/:name", handlers.GetSimpleCharacterHandler(characterRepo))
-        api.GET("/characters/rating/:stars", handlers.GetCharactersByRatingHandler(characterRepo))
+        api.GET("/characters/rarity/:stars", handlers.GetCharactersByRarityHandler(characterRepo))
     }
 }
