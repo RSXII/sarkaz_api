@@ -31,10 +31,10 @@ func GetSimpleCharacterHandler(characterRepo *database.CharacterRepository) func
     }
 }
 
-func GetCharactersByRatingHandler(characterRepo *database.CharacterRepository) func(c *gin.Context) {
+func GetCharactersByRarityHandler(characterRepo *database.CharacterRepository) func(c *gin.Context) {
     return func(c *gin.Context){
         characterRating := c.Param("stars")
-        characters, err := characterRepo.GetCharactersByRating(characterRating)
+        characters, err := characterRepo.GetCharactersByRarity(characterRating)
     if err != nil {
         c.JSON(http.StatusNotFound, gin.H{"error": "Character not found"})
     }
