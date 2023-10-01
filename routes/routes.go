@@ -17,7 +17,7 @@ func InitializeRoutes(r *gin.Engine, characterRepo *database.CharacterRepository
             c.JSON(http.StatusOK, gin.H{"message": "This is a protected route"})
         })
         api.GET("/characters/:name", handlers.GetCharacterHandler(characterRepo))
-        api.GET("/characters//simple/:name", handlers.GetSimpleCharacterHandler(characterRepo))
+        api.GET("/characters/simple/:name", handlers.GetSimpleCharacterHandler(characterRepo))
         api.GET("/characters/rarity/:stars", handlers.GetCharactersByRarityHandler(characterRepo))
     }
 }
