@@ -13,6 +13,9 @@ ENV GO111MODULE=on
 # Set the GOPROXY environment variable (optional but recommended)
 ENV GOPROXY=https://proxy.golang.org,direct
 
+# Copy the dependencies file to the working directory
+COPY go.mod go.sum ./
+
 # Install project dependencies using go mod
 RUN go mod download
 
