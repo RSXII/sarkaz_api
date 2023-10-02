@@ -17,7 +17,7 @@ func main() {
     r := gin.Default()
 
     config := cors.DefaultConfig()
-    config.AllowOrigins = []string{"http://localhost:4200"}
+    config.AllowOrigins = []string{"http://localhost:4200", "https://www.sarkaz.site"}
     config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
 
     r.Use(cors.New(config))
