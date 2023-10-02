@@ -4,20 +4,18 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"sarkaz_api/config"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/joho/godotenv"
 )
 
 var jwtKey []byte
 
 func init(){
-	err := godotenv.Load()
-	if err != nil {
-		panic("failed to load env")
-	}
+    config.LoadEnvironmentVariables()
+	
 	jwtKey = []byte(os.Getenv("JWT_SECRET"))
 }
 
