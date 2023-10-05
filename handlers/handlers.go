@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 	"sarkaz_api/database"
+	"sarkaz_api/models"
 
 	"github.com/gin-gonic/gin"
 )
@@ -41,4 +42,17 @@ func GetCharactersByRarityHandler(characterRepo *database.CharacterRepository) f
     c.JSON(http.StatusOK, characters)
     }
     
+}
+
+func SignUpHandler(usersRepo *database.UserRepository) func (c *gin.Context) {
+    return func(c *gin.Context) {
+        var userData models.User
+        err := c.BindJSON(userData)
+        if err != nil {
+            c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid user data"})
+            return
+        }
+
+
+    }
 }

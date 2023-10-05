@@ -12,7 +12,8 @@ func main() {
    
     database.InitDB()
 
-    characterRepo := database.NewCharacterRepository(database.DB)
+    db := database.GetDBInstance()
+    defer db.Conn.Close()
 
     r := gin.Default()
 
@@ -22,7 +23,7 @@ func main() {
 
     r.Use(cors.New(config))
 
-    routes.InitializeRoutes(r, characterRepo)
+    routes.InitializeRoutes(r, db)
 
     r.Run(":8080")
 }
