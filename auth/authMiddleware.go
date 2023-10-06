@@ -19,7 +19,7 @@ func init(){
 	jwtKey = []byte(os.Getenv("JWT_SECRET"))
 }
 
-func CreateToken(userID string) (string, error) {
+func CreateToken(userID int) (string, error) {
 	
     token := jwt.New(jwt.SigningMethodHS256)
     claims := token.Claims.(jwt.MapClaims)

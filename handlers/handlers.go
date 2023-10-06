@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"sarkaz_api/auth"
 	"sarkaz_api/database"
 	"sarkaz_api/models"
 
@@ -16,6 +17,7 @@ func GetCharacterHandler(characterRepo *database.CharacterRepository) func(c *gi
             c.JSON(http.StatusNotFound, gin.H{"error": "Character not found"})
             return
         }
+        
         c.JSON(http.StatusOK, character)
     }
 }
@@ -28,6 +30,7 @@ func GetSimpleCharacterHandler(characterRepo *database.CharacterRepository) func
         c.JSON(http.StatusNotFound, gin.H{"error": "Character not found"})
         return
     }
+
     c.JSON(http.StatusOK, character)
     }
 }
@@ -39,9 +42,9 @@ func GetCharactersByRarityHandler(characterRepo *database.CharacterRepository) f
     if err != nil {
         c.JSON(http.StatusNotFound, gin.H{"error": "Character not found"})
     }
+
     c.JSON(http.StatusOK, characters)
     }
-    
 }
 
 func SignUpHandler(usersRepo *database.UserRepository) func (c *gin.Context) {
@@ -53,6 +56,12 @@ func SignUpHandler(usersRepo *database.UserRepository) func (c *gin.Context) {
             return
         }
 
+        token, err := auth.CreateToken(userData.UserId)
+        if err != nil {
+            c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not generate token"})
+            return
+        }
 
+        c.JSON(http.StatusOK, gin.H{"token": token})
     }
 }
